@@ -1,0 +1,6 @@
+tqdm
+datasets
+sentence_transformers
+elasticsearch
+openai
+streamlit
