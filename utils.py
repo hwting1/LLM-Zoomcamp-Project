@@ -5,7 +5,7 @@ from sentence_transformers import SentenceTransformer
 
 class HybridSearchEngine:
 
-    def __init__(self, model_name, index_name):
+    def __init__(self, model_name, index_name, k=60):
 
         self._index_name = index_name
         self.es_client = Elasticsearch('http://localhost:9200')
@@ -32,6 +32,7 @@ class HybridSearchEngine:
             "num_candidates": 1000,
             "boost": 0.5
         }
+        self.k = k
 
     @property
     def embedding_model_name(self):
@@ -107,7 +108,7 @@ class HybridSearchEngine:
 
         return hybrid_results
 
-    def hybrid_search_with_rrf(self, query, size=5, k=60):
+    def hybrid_search_with_rrf(self, query, size=5):
 
         query_vector = self.embedding_model.encode(query)
         self._keyword_query["bool"]["must"]["multi_match"]["query"] = query
@@ -133,15 +134,15 @@ class HybridSearchEngine:
         # Calculate RRF using vector search results
         for rank, hit in enumerate(knn_results):
             doc_id = hit['_id']
-            rrf_scores[doc_id] = self._compute_rrf(rank + 1, k)
+            rrf_scores[doc_id] = self._compute_rrf(rank + 1)
 
         # Adding keyword search result scores
         for rank, hit in enumerate(keyword_results):
             doc_id = hit['_id']
             if doc_id in rrf_scores:
-                rrf_scores[doc_id] += self._compute_rrf(rank + 1, k)
+                rrf_scores[doc_id] += self._compute_rrf(rank + 1)
             else:
-                rrf_scores[doc_id] = self._compute_rrf(rank + 1, k)
+                rrf_scores[doc_id] = self._compute_rrf(rank + 1)
 
         # Sort RRF scores in descending order
         reranked_docs = sorted(rrf_scores.items(), key=lambda x: x[1], reverse=True)
@@ -154,9 +155,9 @@ class HybridSearchEngine:
 
         return final_results
 
-    def _compute_rrf(self, rank, k=60):
+    def _compute_rrf(self, rank):
         """ Our own implementation of the relevance score """
-        return 1 / (k + rank)
+        return 1 / (self.k + rank)
 
 
 def build_prompt(query, search_results):
