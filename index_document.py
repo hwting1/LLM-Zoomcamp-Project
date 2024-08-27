@@ -5,15 +5,13 @@ from sentence_transformers import SentenceTransformer
 from elasticsearch import Elasticsearch
 from utils import generate_document_id
 
-index_name = "medical-questions"
-model_name = "multi-qa-distilbert-cos-v1"
-model = SentenceTransformer(model_name, device="cuda")
-
 try:
     with open("Medical-QA.json") as f:
         documents = json.load(f)
 
 except FileNotFoundError:
+    model_name = "multi-qa-distilbert-cos-v1"
+    model = SentenceTransformer(model_name, device="cuda")
     data = load_dataset("keivalya/MedQuad-MedicalQnADataset")["train"]
     df = data.to_pandas()
     df = df.rename(columns={"qtype": "Question Type"})
@@ -27,6 +25,7 @@ except FileNotFoundError:
     with open("Medical-QA.json", "w") as f:
         json.dump(documents, f, indent=4)
 
+index_name = "medical-questions"
 index_settings = {
     "settings": {
         "number_of_shards": 1,
