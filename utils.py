@@ -184,7 +184,7 @@ CONTEXT:
     return prompt
 
 def generate_document_id(doc):
-    combined = f"{doc['Question Type']}-{doc['Question']}-{doc['Answer'][:10]}"
+    combined = f"{doc['Question Type']}-{doc['Question']}-{doc['Answer'][:20]}"
     hash_object = hashlib.md5(combined.encode())
     hash_hex = hash_object.hexdigest()
     document_id = hash_hex[:10]
