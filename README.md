@@ -35,6 +35,12 @@ This project utilizes Retrieval-Augmented Generation (RAG) to create a medical a
 - I have implemented four types of search methods: keyword, KNN, hybrid, and hybrid with reciprocal rank fusion (document reranking). You can choose your preferred method when using the app, and you can also specify the number of search results to be returned.
 - I used only a small portion of the data to generate the ground truth for retrieval evaluation.
 
+**Warning**: This project has only been tested on Ubuntu 22.04. Compatibility with other operating systems is not guaranteed.
+
+**Below is a preview of the application interface:**
+
+![App Interface](app.png)
+
 ## Retrieval evaluation results
 
 | Search Method                             | Hit Rate   | Mean Reciprocal Rank |
@@ -43,12 +49,4 @@ This project utilizes Retrieval-Augmented Generation (RAG) to create a medical a
 | KNN Search                                | **0.8406** | **0.6795**           |
 | Hybrid Search                             | 0.6190     | 0.4372               |
 | Hybrid Search with Reciprocal Rank Fusion | 0.8371     | 0.6218               |
-
-
-
-**Warning**: This project has only been tested on Ubuntu 22.04. Compatibility with other operating systems is not guaranteed.
-
-**Below is a preview of the application interface:**
-
-![App Interface](app.png)
 
