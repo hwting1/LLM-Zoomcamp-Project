@@ -22,13 +22,11 @@ This project utilizes Retrieval-Augmented Generation (RAG) to create a medical a
 
 1. Create a Python virtual environment and run `pip install -r requirements.txt` to install the required dependencies.
 
-2. Optionally, you can download preprocessed data from my [Google Drive](https://drive.google.com/drive/folders/1BUn4VOIr4dEYbqaAO7gq19fnytYOwIYT?usp=sharing)
+2. Run `./start.sh` to start the Docker containers in detached mode, wait for them to initialize, pull the necessary model into the `ollama` container, and then execute the `index_document.py` script to index your documents.
 
-3. Run `./start.sh` to start the Docker containers in detached mode, wait for them to initialize, pull the necessary model into the `ollama` container, and then execute the `index_document.py` script to index your documents.
+3. Run `streamlit run app.py`, and you can start asking questions to the medical assistant!
 
-4. Run `streamlit run app.py`, and you can start asking questions to the medical assistant!
-
-5. Optionally, you can run `python retrieval_evaluation.py` to evaluate the retrieval results.
+4. Optionally, you can run `python retrieval_evaluation.py` to evaluate the retrieval results.
 
 ## **Notes**
 
